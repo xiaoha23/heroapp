@@ -8,9 +8,14 @@ import java.util.List;
 @Service
 public class HeroService {
 
+    private List<String> names;
+
+    public HeroService(List<String> names) {
+        this.names = names;
+    }
 
     public List<String> getAllHeroNames() {
 
-        return new ArrayList<>();
+        return names;
     }
 }
