@@ -14,9 +14,12 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 @RestController
 public class HeroController {
 
-    @Autowired
+
     private HeroService heroService;
 
+    public HeroController(HeroService heroService) {
+        this.heroService = heroService;
+    }
 
     @GetMapping("/hero")
     public ResponseEntity<List<String>> getAllHeroNames() {
