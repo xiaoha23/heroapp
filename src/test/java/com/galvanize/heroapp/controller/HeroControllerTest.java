@@ -2,6 +2,7 @@ package com.galvanize.heroapp.controller;
 
 import com.galvanize.heroapp.model.HeroResponse;
 import com.galvanize.heroapp.service.HeroService;
+import com.galvanize.heroapp.service.HeroServiceInterface;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -21,11 +22,11 @@ public class HeroControllerTest {
     private MockMvc mvc;
 
     @MockBean
-    private HeroService heroService;
+    private HeroServiceInterface heroServiceInterface;
 
     @Test
     public void getAllHeroNames_returnListOfNames() throws Exception {
-        when(heroService.getAllHeroNames())
+        when(heroServiceInterface.getAllHeroNames())
                 .thenReturn(asList(new HeroResponse("superMan")));
         mvc.perform(get("/hero"))
                 .andExpect(status().isOk())

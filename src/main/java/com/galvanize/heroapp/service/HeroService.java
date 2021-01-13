@@ -8,9 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class HeroService {
-
-    private List<String> names;
+public class HeroService implements HeroServiceInterface {
 
     private HeroRepository heroRepository;
 
@@ -18,12 +16,14 @@ public class HeroService {
         this.heroRepository = heroRepository;
     }
 
+    @Override
     public List<HeroResponse> getAllHeroNames() {
-
         return heroRepository
                 .findAll()
                 .stream()
                 .map(hero -> new HeroResponse(hero.getHeroName()))
                 .collect(Collectors.toList());
+
     }
+
 }
