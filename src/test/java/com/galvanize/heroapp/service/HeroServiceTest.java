@@ -1,25 +1,20 @@
 package com.galvanize.heroapp.service;
 
+import com.galvanize.heroapp.entity.Hero;
 import com.galvanize.heroapp.model.HeroResponse;
 import com.galvanize.heroapp.repository.HeroRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
-//@ExtendWith(MockitoExtension.class)
 public class HeroServiceTest {
 
     @Mock
@@ -43,11 +38,13 @@ public class HeroServiceTest {
     @Test
     void getAllHeroNames_returnsListOfAllNames(){
 
+        Hero hero1 = new Hero("real name", "Test");
+        Hero hero2 = new Hero("real name 1", "Test1");
+        Hero hero3 = new Hero("real name 2", "Test2");
+
         HeroService heroService = new HeroService(heroRepository);
         when(heroRepository.findAll()).thenReturn(
-                Arrays.asList(new HeroResponse("Test"),
-                                new HeroResponse("Test1"),
-                                new HeroResponse("Test2")));
+                Arrays.asList(hero1, hero2, hero3));
         List<HeroResponse> names = heroService.getAllHeroNames();
 
         assertEquals(3,names.size());
