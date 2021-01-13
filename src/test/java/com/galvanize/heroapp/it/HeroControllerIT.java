@@ -1,5 +1,7 @@
 package com.galvanize.heroapp.it;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.galvanize.heroapp.model.HeroResponse;
 import com.galvanize.heroapp.repository.HeroRepository;
 import com.galvanize.heroapp.service.HeroService;
 import org.junit.jupiter.api.Test;
@@ -12,12 +14,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 //@AutoConfigureWebMvc
@@ -41,12 +43,14 @@ public class HeroControllerIT {
 
     @Test
     public void getAllHeroNames_returnListOfNames() throws Exception {
-        when(heroRepository.findAll()).thenReturn(asList("test1", "test2"));
+
+        List<HeroResponse> responseList = asList(new HeroResponse("test1"),
+                new HeroResponse("test2"));
+        when(heroRepository.findAll())
+                .thenReturn(responseList);
         mockMvc.perform(get("/hero"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[0]").value("test1"))
-                .andExpect(jsonPath("$[1]").value("test2"));
+                .andExpect(content().json(new ObjectMapper().writeValueAsString(responseList)));
     }
 
 }

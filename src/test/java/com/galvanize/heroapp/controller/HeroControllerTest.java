@@ -1,5 +1,6 @@
 package com.galvanize.heroapp.controller;
 
+import com.galvanize.heroapp.model.HeroResponse;
 import com.galvanize.heroapp.service.HeroService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import static java.util.Arrays.asList;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
@@ -27,9 +29,10 @@ public class HeroControllerTest {
     @Test
     public void getAllHeroNames_returnListOfNames() throws Exception {
         when(heroService.getAllHeroNames())
-                .thenReturn(asList("superMan"));
+                .thenReturn(asList(new HeroResponse("superMan")));
         mvc.perform(get("/hero"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value("superMan"));
     }
 
     @Test

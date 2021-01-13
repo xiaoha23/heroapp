@@ -1,5 +1,6 @@
 package com.galvanize.heroapp.service;
 
+import com.galvanize.heroapp.model.HeroResponse;
 import com.galvanize.heroapp.repository.HeroRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +18,7 @@ public class HeroService {
         this.heroRepository = heroRepository;
     }
 
-//    public HeroService() {
-//    }
-//
-//    public HeroService(List<String> names) {
-//        this.names = names;
-//    }
-
-    public List<String> getAllHeroNames() {
+    public List<HeroResponse> getAllHeroNames() {
         return heroRepository.findAll();
     }
 }

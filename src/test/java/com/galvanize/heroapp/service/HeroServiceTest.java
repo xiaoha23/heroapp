@@ -1,5 +1,6 @@
 package com.galvanize.heroapp.service;
 
+import com.galvanize.heroapp.model.HeroResponse;
 import com.galvanize.heroapp.repository.HeroRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ public class HeroServiceTest {
         HeroService heroService = new HeroService(heroRepository);
 
         when(heroRepository.findAll()).thenReturn(new ArrayList<>());
-        List<String> names = heroService.getAllHeroNames();
+        List<HeroResponse> names = heroService.getAllHeroNames();
 
         assertEquals(0,names.size());
     }
@@ -43,11 +44,14 @@ public class HeroServiceTest {
     void getAllHeroNames_returnsListOfAllNames(){
 
         HeroService heroService = new HeroService(heroRepository);
-        when(heroRepository.findAll()).thenReturn(Arrays.asList("Test","Test1","Test2"));
-        List<String> names = heroService.getAllHeroNames();
+        when(heroRepository.findAll()).thenReturn(
+                Arrays.asList(new HeroResponse("Test"),
+                                new HeroResponse("Test1"),
+                                new HeroResponse("Test2")));
+        List<HeroResponse> names = heroService.getAllHeroNames();
 
         assertEquals(3,names.size());
-        assertTrue(names.contains("Test"));
+        assertEquals("Test", names.get(0).getName());
     }
 
 }

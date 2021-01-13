@@ -1,5 +1,6 @@
 package com.galvanize.heroapp.controller;
 
+import com.galvanize.heroapp.model.HeroResponse;
 import com.galvanize.heroapp.service.HeroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,8 +23,8 @@ public class HeroController {
     }
 
     @GetMapping("/hero")
-    public ResponseEntity<List<String>> getAllHeroNames() {
-        List<String> names = heroService.getAllHeroNames();
+    public ResponseEntity<List<HeroResponse>> getAllHeroNames() {
+        List<HeroResponse> names = heroService.getAllHeroNames();
         return isEmpty(names) ?
                 new ResponseEntity<>(HttpStatus.NO_CONTENT)
                 : new ResponseEntity<>(names, HttpStatus.OK);
