@@ -1,11 +1,13 @@
 package com.galvanize.heroapp.controller;
 
+import com.galvanize.heroapp.entity.Hero;
 import com.galvanize.heroapp.model.HeroResponse;
 import com.galvanize.heroapp.service.HeroService;
 import com.galvanize.heroapp.service.HeroServiceInterface;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -29,4 +31,11 @@ public class HeroController {
                 new ResponseEntity<>(HttpStatus.NO_CONTENT)
                 : new ResponseEntity<>(names, HttpStatus.OK);
     }
+
+
+    @GetMapping("/hero/{name}")
+    public Hero getHeroByName(@PathVariable(name="name") String name) {
+        return heroServiceInterface.getHeroByName();
+    }
+
 }

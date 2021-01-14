@@ -1,5 +1,6 @@
 package com.galvanize.heroapp.service;
 
+import com.galvanize.heroapp.entity.Hero;
 import com.galvanize.heroapp.model.HeroResponse;
 import com.galvanize.heroapp.repository.HeroRepository;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,11 @@ public class HeroService implements HeroServiceInterface {
                 .collect(Collectors.toList());
 
     }
+
+    @Override
+    public Hero getHeroByName() {
+        return null;
+    }
+
 
 }
