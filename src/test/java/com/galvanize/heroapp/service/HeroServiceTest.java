@@ -1,6 +1,7 @@
 package com.galvanize.heroapp.service;
 
 import com.galvanize.heroapp.entity.Hero;
+import com.galvanize.heroapp.exception.APIEexception;
 import com.galvanize.heroapp.model.HeroResponse;
 import com.galvanize.heroapp.repository.HeroRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,8 +12,11 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 public class HeroServiceTest {
@@ -49,6 +53,28 @@ public class HeroServiceTest {
 
         assertEquals(3,names.size());
         assertEquals("Test", names.get(0).getName());
+    }
+
+    @Test
+    void getHeroByName_returnHeroDetail() {
+        Hero hero1 = new Hero("real name", "Test1");
+
+        HeroService heroService = new HeroService(heroRepository);
+        when(heroRepository.findByHeroName(anyString())).thenReturn(hero1);
+
+        Hero expected = heroService.getHeroByName(anyString());
+
+        assertThat(expected).isEqualTo(hero1);
+    }
+
+    @Test
+    void getHeroByName_throwException_whenNotFound() {
+        HeroService heroService = new HeroService(heroRepository);
+        when(heroRepository.findByHeroName(anyString())).thenReturn(null);
+
+        APIEexception apiEexception =
+            assertThrows(APIEexception.class, () -> heroService.getHeroByName("not found"));
+        assertEquals("Hero doesn't exist", apiEexception.getErroMsg());
     }
 
 }

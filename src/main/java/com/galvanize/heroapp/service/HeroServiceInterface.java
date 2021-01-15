@@ -9,5 +9,5 @@ public interface HeroServiceInterface {
 
     List<HeroResponse> getAllHeroNames();
 
-    Hero getHeroByName();
+    Hero getHeroByName(String heroName);
 }

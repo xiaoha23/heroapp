@@ -35,7 +35,7 @@ public class HeroController {
 
     @GetMapping("/hero/{name}")
     public Hero getHeroByName(@PathVariable(name="name") String name) {
-        return heroServiceInterface.getHeroByName();
+        return heroServiceInterface.getHeroByName(name);
     }
 
 }

@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.HttpClientErrorException;
 
 import static java.util.Arrays.asList;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -51,7 +52,7 @@ public class HeroControllerTest {
 
         Hero spiderMan = new Hero("Mike Smith", "spiderman");
 
-        when(heroServiceInterface.getHeroByName()).thenReturn(spiderMan);
+        when(heroServiceInterface.getHeroByName(anyString())).thenReturn(spiderMan);
         mvc.perform(get("/hero/spiderman"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(new ObjectMapper().writeValueAsString(spiderMan)));
@@ -61,7 +62,7 @@ public class HeroControllerTest {
     void getHeroByName_returnNoHeroDetail() throws Exception {
 
         APIEexception exp = new APIEexception("Hero doesn't exist");
-        doThrow(exp).when(heroServiceInterface).getHeroByName();
+        doThrow(exp).when(heroServiceInterface).getHeroByName(anyString());
         mvc.perform(get("/hero/spiderman"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$").value("Hero doesn't exist"));
