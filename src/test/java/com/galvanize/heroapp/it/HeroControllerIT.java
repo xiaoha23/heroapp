@@ -57,4 +57,21 @@ public class HeroControllerIT {
                 .andExpect(content().json(new ObjectMapper().writeValueAsString(responseList)));
     }
 
+    @Test
+    public void getHeroByName_returnHeroDetail() throws Exception {
+        Hero hero1 = new Hero("real name", "test1");
+
+        heroRepository.save(hero1);
+
+        mockMvc.perform(get("/hero/test1"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(new ObjectMapper().writeValueAsString(hero1)));
+    }
+
+    @Test
+    public void getHeroByName_throwException_whenNotFound() throws Exception {
+        mockMvc.perform(get("/hero/test1"))
+                .andExpect(status().isNotFound());
+    }
+
 }
